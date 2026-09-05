@@ -1,0 +1,164 @@
+# =====================================================================
+# DCRP-Roster — Discord role mapping
+# =====================================================================
+# Maps (Department, Rank) → list of Discord role IDs that should be held
+# by a member of that rank in that department.
+#
+# When a member's role_request is approved, the bot:
+#   1. Adds every role_id in the matching (Department, Rank) list.
+#   2. Removes every rank role from any other (Department, Rank) entry
+#      that the member currently holds (reconcile).
+#   3. Adds the department-level role (see `department_roles`).
+#
+# The coordinator fills in real Discord role IDs in a follow-up commit.
+# Every entry is scaffolded with `role_ids: []` so the schema is known
+# even before IDs are filled in.
+#
+# The bot refuses to complete an approval that targets an entry whose
+# `role_ids` is empty (raises RoleConfigMissingError).
+# =====================================================================
+
+# Department-level roles (one per department; given in addition to rank roles)
+department_roles:
+  SASP:  []
+  LSPD:  []
+  BCSO:  []
+  SASPR: []
+  SAHP:  []
+  DOC:   []
+  SWAT:  []
+  CID:   []
+  PSC:   []
+  DOJ:   []
+
+# Per-(Department, Rank) rank roles.
+# Key: "<DEPARTMENT>::<RANK>"  →  list of Discord role IDs
+rank_roles:
+
+  # ---------------------------- SASP ----------------------------
+  "SASP::Cadet":            []
+  "SASP::Solo Cadet":       []
+  "SASP::Trooper":          []
+  "SASP::Senior Trooper":   []
+  "SASP::Corporal":         []
+  "SASP::Sergeant":         []
+  "SASP::Head Sergeant":    []
+  "SASP::Major":            []
+  "SASP::Lieutenant":       []
+  "SASP::Captain":          []
+  "SASP::Commander":        []
+  "SASP::Deputy Chief":     []
+  "SASP::Assistant Chief":  []
+  "SASP::Chief":            []
+
+  # ---------------------------- LSPD ----------------------------
+  "LSPD::Cadet":            []
+  "LSPD::Solo Cadet":       []
+  "LSPD::Officer":          []
+  "LSPD::Senior Officer":   []
+  "LSPD::Corporal":         []
+  "LSPD::Sergeant":         []
+  "LSPD::Head Sergeant":    []
+  "LSPD::Lieutenant":       []
+  "LSPD::Captain":          []
+  "LSPD::Commander":        []
+  "LSPD::Deputy Chief":     []
+  "LSPD::Assistant Chief":  []
+  "LSPD::Chief":            []
+
+  # ---------------------------- BCSO ----------------------------
+  "BCSO::Cadet":            []
+  "BCSO::Solo Cadet":       []
+  "BCSO::Deputy":           []
+  "BCSO::Senior Deputy":    []
+  "BCSO::Corporal":         []
+  "BCSO::Sergeant":         []
+  "BCSO::Head Sergeant":    []
+  "BCSO::Major":            []
+  "BCSO::Lieutenant":       []
+  "BCSO::Captain":          []
+  "BCSO::Commander":        []
+  "BCSO::Undersheriff":     []
+  "BCSO::Sheriff":          []
+
+  # ---------------------------- SASPR ----------------------------
+  "SASPR::Cadet":           []
+  "SASPR::Solo Cadet":      []
+  "SASPR::State Trooper":   []
+  "SASPR::Senior Trooper":  []
+  "SASPR::Corporal":        []
+  "SASPR::Sergeant":        []
+  "SASPR::State Captain":   []
+  "SASPR::Major":           []
+  "SASPR::Colonel":         []
+  "SASPR::Asst. Commissioner": []
+  "SASPR::Commissioner":    []
+
+  # ---------------------------- SAHP ----------------------------
+  "SAHP::Cadet":            []
+  "SAHP::Solo Cadet":       []
+  "SAHP::Trooper":          []
+  "SAHP::Senior Trooper":   []
+  "SAHP::Corporal":         []
+  "SAHP::Sergeant":         []
+  "SAHP::Lieutenant":       []
+  "SAHP::Captain":          []
+  "SAHP::Major":            []
+  "SAHP::Colonel":          []
+
+  # ---------------------------- DOC ----------------------------
+  "DOC::Cadet":             []
+  "DOC::Solo Cadet":        []
+  "DOC::Officer":           []
+  "DOC::Senior Officer":    []
+  "DOC::Corporal":          []
+  "DOC::Sergeant":          []
+  "DOC::Lieutenant":        []
+  "DOC::Captain":           []
+  "DOC::Warden":            []
+
+  # ---------------------------- SWAT ----------------------------
+  "SWAT::Operator":         []
+  "SWAT::Senior Operator":  []
+  "SWAT::Team Leader":      []
+  "SWAT::Asst. Commander": []
+  "SWAT::Commander":        []
+
+  # ---------------------------- CID ----------------------------
+  "CID::Detective":         []
+  "CID::Senior Detective":  []
+  "CID::SSA":               []
+  "CID::SAC":               []
+  "CID::Deputy Director":   []
+  "CID::Asst. Director":    []
+  "CID::Director":          []
+  "CID::OverWatch":         []
+
+  # ---------------------------- Sub-divisions (SEU/WING/MBU/FTD) ----------------------------
+  "SEU::Associate":         []
+  "SEU::Sr. Associate":     []
+  "SEU::Lead":              []
+  "SEU::Head":              []
+  "SEU::OverWatch":         []
+  "SEU::Driver":            []
+  "SEU::Instructor":        []
+  "SEU::Supervisor":        []
+
+  "WING::Pilot":            []
+  "WING::Instructor":       []
+  "WING::Supervisor":       []
+  "WING::Head":             []
+  "WING::OverWatch":        []
+
+  "MBU::Driver":            []
+  "MBU::Instructor":        []
+  "MBU::Supervisor":        []
+  "MBU::Head":              []
+  "MBU::OverWatch":         []
+
+  "FTD::FTA":               []
+  "FTD::FTO":               []
+  "FTD::FTI":               []
+  "FTD::FTS":               []
+  "FTD::Head":              []
+  "FTD::OverWatch":         []

@@ -1,0 +1,295 @@
+# =====================================================================
+# DCRP-Roster — Organizational structure spec
+# =====================================================================
+# This file is the single source of truth for the Target spreadsheet's
+# tab layout. `sheets/bootstrap.py` reads this and creates / updates the
+# Target sheet. It NEVER touches the Nova sheet.
+#
+# 8 of 18 tabs are fully specified with static reference data taken from
+# the captured Nova content (subdivision tables, code lists, etc.).
+# 10 tabs are placeholders the coordinator fills in a follow-up commit.
+#
+# IMPORTANT: zero personnel rows. Every personnel cell that existed in
+# Nova is left empty in Target.
+# =====================================================================
+
+# A column-set block used by the eight department-roster tabs (SASP, LSPD,
+# BCSO, SASPR, SAHP, DOC, SWAT, plus a few others). They all share the
+# same canonical 16-column schema. Header order MUST match the order the
+# service layer writes them in.
+canonical_department_roster_headers:
+  - "Insignia"
+  - "Callsign"
+  - "Rank"
+  - "Name"
+  - "Hire Date"
+  - "Last Promotion Date"
+  - "Batch"
+  - "Strike"
+  - "Activity Status"
+  - "Sub department"
+  - "Certifications"
+  - "Discord ID"
+  - "Discord username"
+  - "LOA Start Date"
+  - "LOA End Date"
+  - "Notes"
+
+# A column-set block for the CID roster (different from the standard
+# department roster — CID tracks callsign, rank, fake name, status, ID,
+# notes only).
+cid_roster_headers:
+  - "Callsign"
+  - "Rank"
+  - "Fake Name"
+  - "Activity Status"
+  - "Discord ID"
+  - "Discord username"
+  - "Notes"
+
+# A column-set block for the sub-department roster (different again —
+# the sub-depts use Badge No., no Discord username column).
+sub_department_roster_headers:
+  - "Badge No."
+  - "Rank"
+  - "Name"
+  - "Hire Date"
+  - "Promotion Date"
+  - "Department"
+  - "Certifications"
+  - "Phases"
+  - "Discord ID"
+  - "Discord username"
+  - "Notes"
+
+# A column-set block for the LEO Resign/Fire tab.
+resign_fire_headers:
+  - "NAME"
+  - "JOINING DATE"
+  - "RESIGN/FIRE DATE"
+  - "RANK"
+  - "Discord USER ID"
+  - "BATCH"
+  - "STATUS"
+  - "REINSTATE"
+  - "Remarks"
+
+# Placeholder header set for the 10 not-yet-specified tabs.
+placeholder_headers:
+  - "Discord ID"
+  - "Discord username"
+  - "Name"
+  - "Rank"
+  - "Department"
+  - "Hire Date"
+  - "Notes"
+
+
+# =====================================================================
+# Tabs
+# =====================================================================
+# Each entry:
+#   name:          exact tab title in the Target sheet
+#   status:        "full" (headers + static data transcribed from Nova) or
+#                  "stub" (placeholder headers, coordinator fills later)
+#   headers:       column header list
+#   static_rows:   non-personnel reference rows (e.g. subdivision table,
+#                  10-codes list, vehicle-authorization grid, etc.)
+#   dropdowns:     optional per-column dropdown allowed values
+#   column_widths: optional per-column width hints (pixels)
+# =====================================================================
+tabs:
+
+  # -----------------------------------------------------------------
+  # HOME PAGE
+  # -----------------------------------------------------------------
+  - name: "HOME PAGE"
+    status: full
+    headers:
+      - "Field"
+      - "Value"
+    static_rows:
+      - ["Organization", "DCRP — Department of Civilian Roleplay"]
+      - ["Bot version", "DCRP-Roster v0.1.0"]
+      - ["Nova reference (read-only)", "1maTrRfFnbAbfE6TAH0X2n9blHcT2ofQDXiWn6QGH5Ko"]
+      - ["Target spreadsheet (production)", "1WnQCGlkFp9oqT79SkkLTYW0K83My21r2B5mSxoxVp24"]
+      - ["Last bootstrap", "<auto-filled by sheets.bootstrap>"]
+      - ["Notes", "No personnel data is ever copied from Nova to Target."]
+    column_widths: [220, 700]
+
+  # -----------------------------------------------------------------
+  # Department rosters (canonical schema)
+  # -----------------------------------------------------------------
+  - name: "SASP ROSTER"
+    status: full
+    headers: ${canonical_department_roster_headers}
+    static_rows: []
+    dropdowns:
+      "Activity Status": ["ACTIVE", "INACTIVE", "LOA", "RESIGNED", "FIRED"]
+      "Sub department": ["MPU", "PIU", "AIR", "SWAT", "K9", "CID", "GIU", "HR", "SEU", "WING", "MBU", "FTD", "ACADEMY", "—"]
+    column_widths: [90, 110, 220, 200, 110, 130, 80, 80, 130, 130, 200, 180, 180, 130, 130, 280]
+
+  - name: "LSPD ROSTER"
+    status: full
+    headers: ${canonical_department_roster_headers}
+    static_rows: []
+    dropdowns:
+      "Activity Status": ["ACTIVE", "INACTIVE", "LOA", "RESIGNED", "FIRED"]
+      "Sub department": ["MPU", "PIU", "AIR", "SWAT", "K9", "CID", "GIU", "HR", "SEU", "WING", "MBU", "FTD", "ACADEMY", "—"]
+    column_widths: [90, 110, 220, 200, 110, 130, 80, 80, 130, 130, 200, 180, 180, 130, 130, 280]
+
+  - name: "BCSO ROSTER"
+    status: full
+    headers: ${canonical_department_roster_headers}
+    static_rows: []
+    dropdowns:
+      "Activity Status": ["ACTIVE", "INACTIVE", "LOA", "RESIGNED", "FIRED"]
+      "Sub department": ["MPU", "PIU", "AIR", "SWAT", "K9", "CID", "GIU", "HR", "SEU", "WING", "MBU", "FTD", "ACADEMY", "—"]
+    column_widths: [90, 110, 220, 200, 110, 130, 80, 80, 130, 130, 200, 180, 180, 130, 130, 280]
+
+  - name: "CID ROSTER"
+    status: full
+    headers: ${cid_roster_headers}
+    static_rows: []
+    dropdowns:
+      "Activity Status": ["ACTIVE", "INACTIVE", "LOA", "RESIGNED", "FIRED"]
+    column_widths: [110, 220, 200, 130, 180, 180, 280]
+
+  - name: "SUB DEPARTMENT ROSTER"
+    status: full
+    headers: ${sub_department_roster_headers}
+    static_rows: []
+    column_widths: [110, 220, 200, 110, 130, 180, 200, 200, 180, 180, 280]
+
+  - name: "Armoury Authorization"
+    status: full
+    headers:
+      - "Department"
+      - "Rank"
+      - "Weapon Class"
+      - "Authorized"
+    static_rows:
+      # Static reference data — the weapon-class authorization grid
+      # from Nova. NO personnel rows.
+      - ["SASP", "Cadet", "Handgun", "YES"]
+      - ["SASP", "Cadet", "Shotgun", "NO"]
+      - ["SASP", "Cadet", "Rifle", "NO"]
+      - ["SASP", "Officer", "Handgun", "YES"]
+      - ["SASP", "Officer", "Shotgun", "YES"]
+      - ["SASP", "Officer", "Rifle", "NO"]
+      - ["SASP", "Sergeant", "Handgun", "YES"]
+      - ["SASP", "Sergeant", "Shotgun", "YES"]
+      - ["SASP", "Sergeant", "Rifle", "YES"]
+      - ["LSPD", "Cadet", "Handgun", "YES"]
+      - ["LSPD", "Cadet", "Shotgun", "NO"]
+      - ["LSPD", "Officer", "Handgun", "YES"]
+      - ["LSPD", "Officer", "Shotgun", "YES"]
+      - ["BCSO", "Deputy", "Handgun", "YES"]
+      - ["BCSO", "Deputy", "Shotgun", "YES"]
+    dropdowns:
+      "Weapon Class": ["Handgun", "Shotgun", "Rifle", "SMG", "Sniper", "Less-Lethal"]
+      "Authorized": ["YES", "NO"]
+    column_widths: [120, 140, 160, 120]
+
+  - name: "LEO Resign/Fire"
+    status: full
+    headers: ${resign_fire_headers}
+    static_rows: []
+    column_widths: [200, 130, 140, 200, 180, 100, 130, 130, 280]
+
+  # -----------------------------------------------------------------
+  # 10 stub tabs (placeholder headers, coordinator fills in follow-up)
+  # -----------------------------------------------------------------
+  - name: "PSC ROSTER"
+    status: stub
+    headers: ${placeholder_headers}
+
+  - name: "SASPR ROSTER"
+    status: stub
+    headers: ${placeholder_headers}
+
+  - name: "SAHP ROSTER"
+    status: stub
+    headers: ${placeholder_headers}
+
+  - name: "DOC ROSTER"
+    status: stub
+    headers: ${placeholder_headers}
+
+  - name: "SWAT ROSTER"
+    status: stub
+    headers: ${placeholder_headers}
+
+  - name: "Vehicle Authorization"
+    status: stub
+    headers:
+      - "Department"
+      - "Rank"
+      - "Vehicle Class"
+      - "Authorized"
+
+  - name: "Patrolling Area/Routes"
+    status: stub
+    headers:
+      - "Area / Route"
+      - "Assigned Department"
+      - "Notes"
+
+  - name: "10 CODES"
+    status: stub
+    headers:
+      - "Code"
+      - "Meaning"
+      - "Department"
+
+  - name: "Law Enforcement Rank Structure"
+    status: stub
+    headers:
+      - "Department"
+      - "Rank"
+      - "Insignia"
+      - "Seniority"
+
+  - name: "DOJ"
+    status: stub
+    headers: ${placeholder_headers}
+
+
+# =====================================================================
+# State tabs (auto-created on first use — listed here for documentation)
+# =====================================================================
+state_tabs:
+  - name: "PENDING REQUESTS"
+    headers:
+      - "Request ID"
+      - "Requester"
+      - "Target ID"
+      - "Target Username"
+      - "Department"
+      - "Rank"
+      - "Approved By"
+      - "Status"
+      - "Created At"
+      - "Updated At"
+      - "Approver"
+      - "Completion Message ID"
+      - "Result Metadata"
+
+  - name: "AUDIT_LOG"
+    headers:
+      - "Timestamp"
+      - "Request ID"
+      - "Action"
+      - "Target Discord ID"
+      - "Target Username"
+      - "Prev Rank"
+      - "New Rank"
+      - "Prev Department"
+      - "New Department"
+      - "Requester ID"
+      - "Approver ID"
+      - "Discord Result"
+      - "Sheets Result"
+      - "Overall Result"
+      - "Failure Reason"
+      - "Metadata"
