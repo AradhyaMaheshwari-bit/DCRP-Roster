@@ -93,7 +93,9 @@ class FakeSpreadsheet:
 
     def worksheet(self, title: str) -> FakeWorksheet:
         if title not in self.worksheets:
-            raise Exception(f"Worksheet {title!r} not found")
+            # Use the gspread-style exception so ensure_tab() can catch it.
+            import gspread.exceptions
+            raise gspread.exceptions.WorksheetNotFound(f"Worksheet {title!r} not found")
         return self.worksheets[title]
 
     def add_worksheet(self, title: str, rows: int, cols: int) -> FakeWorksheet:
