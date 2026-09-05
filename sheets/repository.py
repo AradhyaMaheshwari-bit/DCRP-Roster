@@ -71,7 +71,7 @@ def _norm_header(s: str) -> str:
 
 def read_header_row(ws: gspread.Worksheet) -> list[str]:
     """Read row 1 (headers) of a worksheet as a list of strings."""
-    values = ws.row_values(1, value_render_option=ValueRenderOption.formatted_value)
+    values = ws.row_values(1, value_render_option=ValueRenderOption.formatted)
     return [str(v) for v in values]
 
 
@@ -96,7 +96,7 @@ def read_all_rows(ws: gspread.Worksheet) -> list[Row]:
         return []
     records = ws.get(
         values_range=f"A2:{_col_letter(len(headers))}",
-        value_render_option=ValueRenderOption.formatted_value,
+        value_render_option=ValueRenderOption.formatted,
     )
     out: list[Row] = []
     for raw in records:
@@ -127,7 +127,7 @@ def find_row_by_column(
     target = (value or "").strip()
     records = ws.get(
         values_range=f"A2:{_col_letter(len(headers))}",
-        value_render_option=ValueRenderOption.formatted_value,
+        value_render_option=ValueRenderOption.formatted,
     )
     for offset, raw in enumerate(records):
         cell = raw[col_idx] if col_idx < len(raw) else ""
@@ -149,7 +149,7 @@ def find_all_rows_by_column(
     target = (value or "").strip()
     records = ws.get(
         values_range=f"A2:{_col_letter(len(headers))}",
-        value_render_option=ValueRenderOption.formatted_value,
+        value_render_option=ValueRenderOption.formatted,
     )
     out: list[RowLocation] = []
     for offset, raw in enumerate(records):
@@ -197,7 +197,7 @@ def update_row(
     ncols = len(row_values)
     if expected_current is not None:
         current = ws.row_values(
-            row_index, value_render_option=ValueRenderOption.formatted_value
+            row_index, value_render_option=ValueRenderOption.formatted
         )
         # Pad current to length of expected so we can compare.
         padded = list(current) + [""] * max(0, len(expected_current) - len(current))
@@ -375,7 +375,7 @@ def _row_to_dict(ws: gspread.Worksheet, row_index: int) -> Row:
     """Read a single row and return it keyed by header."""
     headers = read_header_row(ws)
     raw = ws.row_values(
-        row_index, value_render_option=ValueRenderOption.formatted_value
+        row_index, value_render_option=ValueRenderOption.formatted
     )
     out: Row = {}
     for i, h in enumerate(headers):
